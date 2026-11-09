@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shipcheck"
+version = "1.0.0"
+description = "开源仓库发布体检：输入一个项目目录，输出 100 分制体检报告与修复清单"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+authors = [{ name = "YOUR NAME" }]
+keywords = ["github", "repository", "checklist", "lint", "elite20", "c5"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/415wang417-hao/shipcheck"
+Issues = "https://github.com/415wang417-hao/shipcheck/issues"
+Changelog = "https://github.com/415wang417-hao/shipcheck/blob/main/CHANGELOG.md"
+
+[project.scripts]
+shipcheck = "shipcheck.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["shipcheck*"]
