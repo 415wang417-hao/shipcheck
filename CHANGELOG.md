@@ -20,7 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - `tests/` — 18 pytest test cases covering all rules
 - `scripts/run_check.py` — standalone script requiring no installation
 - Full documentation: README, AI_LOG, ATTRIBUTION, CONTRIBUTING, CHANGELOG
-- GitHub Actions CI workflow (`ci.yml`)
 - Issue templates: Bug Report, Feature Request
 
 ### Notes

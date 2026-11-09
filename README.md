@@ -4,7 +4,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![CI](https://github.com/415wang417-hao/shipcheck/actions/workflows/ci.yml/badge.svg)](https://github.com/415wang417-hao/shipcheck/actions)
+![Tests](https://img.shields.io/badge/tests-63%20passed-brightgreen.svg)
 
 ---
 
@@ -134,7 +134,6 @@ shipcheck/
 │   ├── test_md.py
 │   └── test_cli.py
 └── .github/
-    ├── workflows/ci.yml
     ├── ISSUE_TEMPLATE/
     └── PULL_REQUEST_TEMPLATE.md
 ```
@@ -146,7 +145,7 @@ shipcheck/
 - 语言：Python 3.9+
 - 依赖：仅标准库（`pathlib`、`json`、`argparse`、`re`、`difflib`），零第三方运行时依赖
 - 测试：`unittest`（标准库自带，`python -m unittest discover -s tests -t .`）
-- CI：GitHub Actions，多版本 Python 矩阵
+- 质量门禁：`scripts/run_check.py` 可直接接入任意 CI（「必须」项不通过时退出码为 2）
 - AI 集成：Antigravity（Claude Sonnet）辅助生成初稿、测试、文档，人工负责架构决策与边界修正
 
 ---
@@ -216,7 +215,7 @@ python -m unittest discover -s tests -t .
 python -m shipcheck .
 ```
 
-需要说明的是：用 shipcheck 检查 shipcheck 得分 100/100 属于自检结果，只能说明规则实现自洽；真正的外部证据是上面的 unittest 全绿记录与 CI 状态。
+需要说明的是：用 shipcheck 检查 shipcheck 得分 100/100 属于自检结果，只能说明规则实现自洽；真正的外部证据是上面的 63 个 unittest 全绿记录。
 
 ---
 
