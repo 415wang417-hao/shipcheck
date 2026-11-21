@@ -158,6 +158,41 @@ AI 建议了以下架构：
 
 ---
 
+## 阶段 7：CI 上线与双平台验证（2026-11-21）
+
+### 1. 目标与预期（K / S / T）
+
+- **情境**：阶段 6 收尾时 CI 工作流因 token 缺 `workflow` scope 没能推上去，"63 用例全绿"只有本地一次运行的证据。
+- **任务**：把 CI 补上，让测试与自检在 `ubuntu-latest` 与 `windows-latest` 上自动复现。
+- **预期（R̂）**：加好工作流、跑绿、徽章指向真实运行，不改规则集与计分逻辑。
+
+### 2. 行动（A）
+
+- 写 `.github/workflows/ci.yml`：matrix 覆盖 ubuntu / windows，Python 3.12，跑 `unittest discover -s tests -t .` 与 `python -m shipcheck .`，并用 `-f markdown -o` 输出自检报告。
+- 首次推送被 GitHub 拒收（缺 `workflow` scope），重新授权后推上去。
+
+### 3. 结果（R）
+
+- 第一次 CI 运行红（run 44890246729）：`facts.py` 的长度规则按字节计长，Windows 检出为 CRLF、Linux 为 LF，同一文件两端算出不同长度，ubuntu 通过、windows 失败。
+- 修复：读取时统一行尾，长度规则与平台解耦。
+- 第二次运行（run 44890547765）：ubuntu / windows 两个 job 全部 success。
+
+### 4. 差异与归因（ΔR）
+
+- **预期**："加上工作流就完事"；**实际**：CI 第一跑就暴露了本地复现不出的跨平台缺陷。
+- **归因**：此前只在 Windows 上跑过，从未在 LF 检出下验证——跨平台一致性必须由异构环境跑出来，想是想不出来的。
+
+### 5. 落地证据
+
+| 结论 | 动作 | 可验证位置 |
+|------|------|-----------|
+| CI 已上线 | 双平台 matrix 工作流 | `.github/workflows/ci.yml` |
+| 跨平台长度缺陷已修 | 读取时统一行尾 | `facts.py` |
+| 双平台全绿 | run 44890547765 两 job success | Actions 运行历史 |
+| 徽章不说谎 | 静态测试徽章 → 真实 CI 徽章 | `README.md` 顶部 |
+
+---
+
 ## 失败经验记录
 
 1. **第一版 `report.py` 在 Windows Terminal 下 emoji 显示乱码**

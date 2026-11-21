@@ -4,7 +4,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-![Tests](https://img.shields.io/badge/tests-63%20passed-brightgreen.svg)
+[![CI](https://github.com/415wang417-hao/shipcheck/actions/workflows/ci.yml/badge.svg)](https://github.com/415wang417-hao/shipcheck/actions/workflows/ci.yml)
 
 ---
 
@@ -215,7 +215,7 @@ python -m unittest discover -s tests -t .
 python -m shipcheck .
 ```
 
-需要说明的是：用 shipcheck 检查 shipcheck 得分 100/100 属于自检结果，只能说明规则实现自洽；真正的外部证据是上面的 63 个 unittest 全绿记录。
+需要说明的是：用 shipcheck 检查 shipcheck 得分 100/100 属于自检结果，只能说明规则实现自洽；真正的外部证据是 GitHub Actions 在 `ubuntu-latest` 与 `windows-latest` 上跑出的 63 个 unittest 全绿记录，见顶部 CI 徽章与 Actions 运行历史。
 
 ---
 
