@@ -78,15 +78,25 @@ _IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp"}
 
 
 def decode_bytes(raw: bytes) -> str:
-    """Decode file bytes trying the encodings a real repository may use."""
+    """Decode file bytes trying the encodings a real repository may use.
+
+    Newlines are normalized to ``\n`` so character-count based rules
+    (length thresholds, section detection) behave identically whether the
+    checkout used CRLF (Windows) or LF (POSIX) line endings.
+    """
     if raw.startswith(b"\xef\xbb\xbf"):  # UTF-8 BOM
         raw = raw[3:]
     for encoding in ("utf-8", "gb18030", "latin-1"):
         try:
-            return raw.decode(encoding)
+            return _normalize_newlines(raw.decode(encoding))
         except UnicodeDecodeError:
             continue
-    return raw.decode("utf-8", "replace")
+    return _normalize_newlines(raw.decode("utf-8", "replace"))
+
+
+def _normalize_newlines(text: str) -> str:
+    """Collapse CRLF/CR to LF so measurements are platform-independent."""
+    return text.replace("\r\n", "\n").replace("\r", "\n")
 
 
 @dataclass

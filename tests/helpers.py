@@ -200,6 +200,11 @@ def good_repo_files() -> Dict[str, str]:
             "```bash\n"
             "python -m unittest discover -s tests -t . -v\n"
             "```\n\n"
+            "## 代码风格\n\n"
+            "统一使用 4 空格缩进，遵循 PEP 8 命名；函数与模块均需写 docstring。\n"
+            "改动请保持向后兼容，新增行为需补充对应单元测试。\n\n"
+            "## 行为准则与许可\n\n"
+            "参与本项目即视为同意 CODE_OF_CONDUCT.md；贡献代码以 MIT 协议授权。\n\n"
             "## 提交信息规范\n\n"
             "- `feat:` 新功能 · `fix:` 修复 · `docs:` 文档 · `test:` 测试\n"
         ),
