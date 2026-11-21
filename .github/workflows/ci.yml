@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    name: Test on Python ${{ matrix.python-version }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # shipcheck has zero runtime dependencies (standard library only),
+      # so no pip install step is required.
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -t . -v
+
+      # The tool audits itself: CI fails if the score drops below 80
+      # or any required check breaks.
+      - name: Self audit (shipcheck on its own repo)
+        run: python -m shipcheck . --min-score 80
+
+  markdown-report:
+    name: Generate self-audit report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate SELF_AUDIT.md
+        run: python -m shipcheck . -f markdown -o SELF_AUDIT.md
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: self-audit-report
+          path: SELF_AUDIT.md
